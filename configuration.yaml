@@ -1,0 +1,117 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 0
+  longitude: 0
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: UTC
+  # Customization file
+  customize: !include customize.yaml
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Cloud
+cloud:
+
+shell_command:
+  tv_irsend: 'irsend SEND_ONCE PhilipsPFT {{ key }}'
+
+
+switch:
+- platform: command_line
+  switches:
+    tv_volume:
+      command_on: irsend SEND_ONCE PhilipsPFT KEY_VOLUMEUP
+      command_off: irsend SEND_ONCE PhilipsPFT KEY_VOLUMEDOWN
+#    tv_power:
+#      command_on: irsend SEND_ONCE PhilipsPFT KEY_POWER
+#      command_off: irsend SEND_ONCE PhilipsPFT KEY_POWER
+- platform: rpi_rf
+  gpio: 24
+  gpiorx: 23
+  switches:
+    biltema_2:
+      code_on: 86101
+      code_off: 86100
+#    suihkuradio:
+#      protocol: 4
+#      code_on: 4760508
+#      code_off: 5112348
+#    vessa_valo:
+#      code_on: 21589
+#      code_off: 21588
+#    olohuone_joulu:
+#      protocol: 4
+#      code_on: 4532016
+#      code_off: 5112336
+#    olohuone_jalkalamppu:
+#      protocol: 4
+#      code_on:  4871284
+#      code_off: 5112340
+
+mqtt:
+
+sensor:
+  platform: mqtt
+  name: "Temperature"
+  state_topic: "sensor/temperature"
+  qos: 0
+  unit_of_measurement: "ºC"
+
+sensor 2:
+  platform: mqtt
+  name: "Humidity"
+  state_topic: "sensor/humidity"
+  qos: 0
+  unit_of_measurement: "%"
+
+#camera:
+#  platform: generic
+#  name: Dafang
+#  still_image_url: http://192.168.100.25/cgi-bin/currentpic.cgi?width=1920&height=1080
+#  username: root
+#  password: ismart12
+  verify_ssl: False
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

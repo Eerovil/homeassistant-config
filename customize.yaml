@@ -1,0 +1,12 @@
+switch.biltema_2:
+  assumed_state: true
+  friendly_name: Olohuoneen jalkalamppu
+switch.tv_power:
+  confirm_controls_show_lock: true
+  friendly_name: TV Power
+switch.tv_volume:
+  friendly_name: TV Volume
+group.default_view: {}
+group.power:
+  assumed_state: false
+group.all_scripts: {}

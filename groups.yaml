@@ -1,0 +1,41 @@
+default_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - sensor.humidity
+    - sensor.temperature
+    - group.my_switches  
+    - group.power
+    - group.my_scripts
+    - media_player.eeron_chromecast
+    #- camera.dafang
+
+my_scripts:
+  view: yes
+  entities:
+  - script.seek_30s
+  - script.seek_back_30s
+  - script.tv_power
+
+all_automations:
+
+#kamera:
+#  name: Kamera
+#  view: no
+#  entities:
+#    - camera.dafang
+
+power:
+  name: Power
+  view: no
+  control: hidden
+  entities:
+    - switch.tv_power
+
+my_switches:
+  name: Switches
+  view: no
+  control: hidden
+  entities:
+    - switch.biltema_2
+    - switch.tv_volume

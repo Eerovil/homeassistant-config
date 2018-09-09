@@ -1,0 +1,20 @@
+seek_30s:
+  sequence:
+  - service: media_player.media_seek
+    entity_id: media_player.eeron_chromecast
+    data_template:
+      seek_position: '{{ states.media_player.eeron_chromecast.attributes.media_position + 30 }}'
+
+seek_back_30s:
+  sequence:
+  - service: media_player.media_seek
+    entity_id: media_player.eeron_chromecast
+    data_template:
+      seek_position: '{{ states.media_player.eeron_chromecast.attributes.media_position - 30 }}'
+
+
+tv_power:
+  sequence:
+  - service: shell_command.tv_irsend
+    data:
+      key: KEY_POWER
