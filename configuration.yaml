@@ -57,6 +57,11 @@ shell_command:
 
 
 switch:
+- platform: broadlink
+  name: "NEO"
+  host: 192.168.100.43
+  mac: !secret NEO_MAC
+  type: sp2
 - platform: command_line
   switches:
     tv_volume:
@@ -104,12 +109,10 @@ sensor 2:
   qos: 0
   unit_of_measurement: "%"
 
-#camera:
-#  platform: generic
-#  name: Dafang
-#  still_image_url: http://192.168.100.25/cgi-bin/currentpic.cgi?width=1920&height=1080
-#  username: root
-#  password: ismart12
+camera:
+  platform: generic
+  name: Dafang
+  still_image_url: http://192.168.100.17:8081/cgi-bin/currentpic.cgi?width=1920&height=1080
   verify_ssl: False
 
 group: !include groups.yaml

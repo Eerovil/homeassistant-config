@@ -16,14 +16,15 @@ my_scripts:
   - script.seek_30s
   - script.seek_back_30s
   - script.tv_power
+  - switch.broadlink_switch
 
 all_automations:
 
-#kamera:
-#  name: Kamera
-#  view: no
-#  entities:
-#    - camera.dafang
+kamera:
+  name: Kamera
+  view: no
+  entities:
+    - camera.dafang
 
 power:
   name: Power

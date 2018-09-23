@@ -10,3 +10,5 @@ group.default_view: {}
 group.power:
   assumed_state: false
 group.all_scripts: {}
+switch.broadlink_switch:
+  friendly_name: Valtterin pallovalot
