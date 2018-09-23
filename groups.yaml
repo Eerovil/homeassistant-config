@@ -8,7 +8,6 @@ default_view:
     - group.power
     - group.my_scripts
     - media_player.eeron_chromecast
-    #- camera.dafang
 
 my_scripts:
   view: yes
@@ -22,7 +21,7 @@ all_automations:
 
 kamera:
   name: Kamera
-  view: no
+  view: yes
   entities:
     - camera.dafang
 
