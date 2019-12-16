@@ -2,16 +2,20 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: 0
-  longitude: 0
+  latitude: 62.60118
+  longitude: 29.76316
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 0
+  elevation: 117
   # metric for Metric, imperial for Imperial
   unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: UTC
+  time_zone: "Europe/Helsinki"
   # Customization file
   customize: !include customize.yaml
+
+script: !include scripts.yaml
+
+automation: !include automations.yaml
 
 # Enables the frontend
 frontend:
@@ -24,6 +28,7 @@ http:
   api_password: !secret http_password
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
+  cors_allowed_origins: "*"
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -49,19 +54,23 @@ logbook:
 # Enables a map showing the location of tracked devices
 map:
 
+sun:
+
 # Cloud
 cloud:
 
+wake_on_lan:
+
 shell_command:
   tv_irsend: 'irsend SEND_ONCE PhilipsPFT {{ key }}'
+  shutdown_pc: 'curl http://192.168.100.35:5001/shutdown'
 
 
 switch:
-- platform: broadlink
-  name: "NEO"
-  host: 192.168.100.43
-  mac: !secret NEO_MAC
-  type: sp2
+# - platform: broadlink
+#   host: 192.168.100.11
+#   mac: !secret NEO_MAC
+#   type: sp2
 - platform: command_line
   switches:
     tv_volume:
@@ -72,35 +81,59 @@ switch:
 #      command_off: irsend SEND_ONCE PhilipsPFT KEY_POWER
 - platform: rpi_rf
   gpio: 24
-  gpiorx: 23
   switches:
     biltema_2:
       code_on: 86101
       code_off: 86100
-#    suihkuradio:
-#      protocol: 4
-#      code_on: 4760508
-#      code_off: 5112348
-#    vessa_valo:
-#      code_on: 21589
-#      code_off: 21588
-#    olohuone_joulu:
-#      protocol: 4
-#      code_on: 4532016
-#      code_off: 5112336
-#    olohuone_jalkalamppu:
-#      protocol: 4
-#      code_on:  4871284
-#      code_off: 5112340
+    suihkuradio:
+      protocol: 4
+      code_on: 4760508
+      code_off: 5112348
+    vessa_valo:
+      code_on: 21589
+      code_off: 21588
+    olohuone_joulu:
+      protocol: 4
+      code_on: 4532016
+      code_off: 5112336
+    olohuone_jalkalamppu:
+      protocol: 4
+      code_on:  4871284
+      code_off: 5112340
+- platform: wake_on_lan
+  name: Eero-PC
+  mac_address: !secret EERO_MAC
+  broadcast_address: '192.168.100.255'
+  host: '192.168.100.35'
+  turn_off:
+    service: shell_command.shutdown_pc
 
 mqtt:
+  broker: 127.0.0.1
+  username: homeassistant
+  password: kalastajat
+  discovery: true
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
 
 sensor:
-  platform: mqtt
-  name: "Temperature"
-  state_topic: "sensor/temperature"
-  qos: 0
-  unit_of_measurement: "ºC"
+  - platform: mqtt
+    name: "Temperature"
+    state_topic: "sensor/temperature"
+    qos: 0
+    unit_of_measurement: "°C"
+  - platform: template
+    sensors:
+      temperature_c:
+        unit_of_measurement: "°C"
+        value_template: "{{states('sensor.temperature')}}"
+  - platform: openhardwaremonitor
+    host: 192.168.100.35
+
 
 sensor 2:
   platform: mqtt
@@ -109,12 +142,46 @@ sensor 2:
   qos: 0
   unit_of_measurement: "%"
 
-camera:
-  platform: generic
-  name: Dafang
-  still_image_url: http://192.168.100.17:8081/cgi-bin/currentpic.cgi?width=1920&height=1080
-  verify_ssl: False
+#camera:
+#  platform: generic
+#  name: Dafang
+#  still_image_url: http://192.168.100.46/cgi-bin/currentpic.cgi?width=1920&height=1080
+#  verify_ssl: False
 
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
+history_graph:
+  gr1:
+    name: Huone
+    entities:
+      - sensor.temperature
+      - sensor.humidity
+    hours_to_show: 168
+    refresh: 60
+
+zone:
+  - name: Home
+    latitude: 62.6221244
+    longitude: 29.84262338
+    radius: 20
+    icon: mdi:account-multiple
+
+sensor 3:
+  - platform: yr
+    name: Weather
+    monitored_conditions:
+      - temperature
+      - symbol
+      - precipitation
+      - windSpeed
+      - pressure
+      - windDirection
+      - humidity
+    latitude: 62.6221244
+    longitude: 29.84262338
+  - platform: template
+    sensors:
+      last_update_eero:
+        value_template: '{{ (as_timestamp(now()) - as_timestamp(states.device_tracker.eero_2.last_changed)) }}'
+
+logger:
+  default: warning
+

@@ -1,14 +1,56 @@
 switch.biltema_2:
   assumed_state: true
   friendly_name: Olohuoneen jalkalamppu
+  hidden: true
 switch.tv_power:
   confirm_controls_show_lock: true
   friendly_name: TV Power
 switch.tv_volume:
   friendly_name: TV Volume
-group.default_view: {}
+group.default_view:
+  entity_id:
+  - sensor.humidity
+  - sensor.temperature
+  - group.my_switches
+  - group.power
+  - group.my_scripts
+  - media_player.eeron_chromecast_ultra
+  - automation
 group.power:
   assumed_state: false
 group.all_scripts: {}
 switch.broadlink_switch:
-  friendly_name: Valtterin pallovalot
+  assumed_state: true
+  friendly_name: Valo tai Tuuletin
+automation.new_automation:
+  hidden: true
+history_graph.huone:
+  hidden: true
+script.seek_30s:
+  hidden: true
+script.seek_back_30s:
+  hidden: true
+media_player.redmi_5_plus_2:
+  hidden: true
+camera.dafang:
+  hidden: true
+switch.olohuone_joulu:
+  friendly_name: Olohuoneen Jalkalamppu
+switch.olohuone_jalkalamppu:
+  hidden: true
+switch.suihkuradio:
+  hidden: true
+switch.vessa_valo:
+  hidden: true
+media_player.annas_iphone:
+  hidden: true
+media_player.chrome_5:
+  hidden: true
+media_player.redmi_5_plus_3:
+  hidden: true
+media_player.ipad_anna:
+  hidden: true
+binary_sensor.0x14b457fffe685e6d_occupancy:
+  friendly_name: ikea_motion
+switch.eero_pc:
+  assumed_state: 'False'

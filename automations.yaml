@@ -1,1 +1,45 @@
-[]
+- id: light_on
+  alias: Turn on light
+  trigger:
+  - entity_id: sensor.0x000b57fffe91ec6c_brightness
+    platform: state
+    to: '255'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.olohuone_joulu
+    entity_id: switch.olohuone_joulu
+    service: switch.turn_on
+- id: light_off
+  alias: Turn off light
+  trigger:
+  - entity_id: sensor.0x000b57fffe91ec6c_brightness
+    platform: state
+    to: '0'
+  action:
+  - data:
+      entity_id: switch.olohuone_joulu
+    service: switch.turn_off
+- id: '1569905221711'
+  alias: Turn on light action
+  trigger:
+  - entity_id: sensor.0x000b57fffe91ec6c_action
+    platform: state
+  condition:
+  - condition: state
+    entity_id: sensor.0x000b57fffe91ec6c_brightness
+    state: '255'
+  action:
+  - data:
+      entity_id: switch.olohuone_joulu
+    service: switch.turn_on
+- id: '1570136379544'
+  alias: Olohuone lamppu yöpois
+  trigger:
+  - at: 00:30
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: switch.olohuone_joulu
+    service: switch.turn_off

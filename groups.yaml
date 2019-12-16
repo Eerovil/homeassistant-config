@@ -23,6 +23,7 @@ kamera:
   name: Kamera
   view: yes
   entities:
+    - history_graph.huone
     - camera.dafang
 
 power:
