@@ -1,6 +1,6 @@
 switch.biltema_2:
   assumed_state: true
-  friendly_name: Olohuoneen jalkalamppu
+  friendly_name: Takapiha Jouluvalo
   hidden: true
 switch.tv_power:
   confirm_controls_show_lock: true
@@ -21,7 +21,7 @@ group.power:
 group.all_scripts: {}
 switch.broadlink_switch:
   assumed_state: true
-  friendly_name: Valo tai Tuuletin
+  friendly_name: Etupihan Jouluvalo
 automation.new_automation:
   hidden: true
 history_graph.huone:
@@ -36,7 +36,10 @@ camera.dafang:
   hidden: true
 switch.olohuone_joulu:
   friendly_name: Olohuoneen Jalkalamppu
+  google_assistant: 'true'
+  google_assistant_name: Lights
 switch.olohuone_jalkalamppu:
+  friendly_name: Takapiha Jouluvalo
   hidden: true
 switch.suihkuradio:
   hidden: true
@@ -53,4 +56,6 @@ media_player.ipad_anna:
 binary_sensor.0x14b457fffe685e6d_occupancy:
   friendly_name: ikea_motion
 switch.eero_pc:
-  assumed_state: 'False'
+  assumed_state: false
+switch.kaikki_jouluvalot:
+  friendly_name: Kaikki jouluvalot

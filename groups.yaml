@@ -1,5 +1,5 @@
 default_view:
-  view: yes
+  #view: yes
   icon: mdi:home
   entities:
     - sensor.humidity
@@ -10,7 +10,7 @@ default_view:
     - media_player.eeron_chromecast
 
 my_scripts:
-  view: yes
+  #view: yes
   entities:
   - script.seek_30s
   - script.seek_back_30s
@@ -21,22 +21,30 @@ all_automations:
 
 kamera:
   name: Kamera
-  view: yes
+  #view: yes
   entities:
     - history_graph.huone
     - camera.dafang
 
 power:
   name: Power
-  view: no
-  control: hidden
+  #view: no
+  #control: hidden
   entities:
     - switch.tv_power
 
 my_switches:
   name: Switches
-  view: no
-  control: hidden
+  #view: no
+  #control: hidden
   entities:
     - switch.biltema_2
     - switch.tv_volume
+
+kaikki_jouluvalot:
+  name: "Kaikki jouluvalot"
+  #view: no
+  entities:
+    - switch.broadlink_switch
+    - switch.olohuone_jalkalamppu
+

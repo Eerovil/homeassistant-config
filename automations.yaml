@@ -43,3 +43,13 @@
   - data:
       entity_id: switch.olohuone_joulu
     service: switch.turn_off
+- id: '1576823517911'
+  alias: Eeron kone yöpois
+  trigger:
+  - at: 00:30
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: switch.Eero-PC
+    service: switch.turn_off

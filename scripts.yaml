@@ -1,20 +1,74 @@
-seek_30s:
-  sequence:
-  - service: media_player.media_seek
-    entity_id: media_player.eeron_chromecast
-    data_template:
-      seek_position: '{{ states.media_player.eeron_chromecast.attributes.media_position + 30 }}'
-
-seek_back_30s:
-  sequence:
-  - service: media_player.media_seek
-    entity_id: media_player.eeron_chromecast
-    data_template:
-      seek_position: '{{ states.media_player.eeron_chromecast.attributes.media_position - 30 }}'
-
-
 tv_power:
   sequence:
-  - service: shell_command.tv_irsend
-    data:
+  - data:
       key: KEY_POWER
+    service: shell_command.tv_irsend
+  alias: Script TV power
+'1558028006209':
+  alias: KEY_TV
+  sequence:
+  - data:
+      key: KEY_TV
+    service: shell_command.tv_irsend
+'1558028055620':
+  alias: KEY_CHUP
+  sequence:
+  - data:
+      key: KEY_CHANNELUP
+    service: shell_command.tv_irsend
+'1558028085945':
+  alias: KEY_CHDOWN
+  sequence:
+  - data:
+      key: KEY_CHANNELDOWN
+    service: shell_command.tv_irsend
+'1558028141029':
+  alias: KEY_INFO
+  sequence:
+  - data:
+      key: KEY_INFO
+    service: shell_command.tv_irsend
+'1560370751812':
+  alias: KEY_VOLUMEDOWN
+  sequence:
+  - data:
+      key: KEY_VOLUMEDOWN
+    service: shell_command.tv_irsend
+'1560370778497':
+  alias: KEY_VOLUMEUP
+  sequence:
+  - data:
+      key: KEY_VOLUMEUP
+    service: shell_command.tv_irsend
+'1555615178618':
+  alias: 30min
+  sequence:
+  - data:
+      entity_id: switch.broadlink_switch
+    service: switch.turn_on
+  - delay: 00:30:00
+  - data:
+      entity_id: switch.broadlink_switch
+    service: switch.turn_off
+'1560544794906':
+  alias: T30min
+  sequence:
+  - data:
+      entity_id: switch.broadlink_switch
+    service: switch.turn_on
+  - delay: 00:30:00
+  - data:
+      entity_id: switch.broadlink_switch
+    service: switch.turn_off
+'1576268925104':
+  alias: KEY_MUTE
+  sequence:
+  - data:
+      key: KEY_MUTE
+    service: shell_command.tv_irsend
+'1588245817669':
+  alias: Script moomin
+  sequence:
+  - data:
+      code: 0004119880
+    service: shell_command.magic_card

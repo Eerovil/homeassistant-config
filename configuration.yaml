@@ -22,15 +22,20 @@ automation: !include automations.yaml
 # Enables the frontend
 frontend:
 
+mobile_app:
+
 # Enables configuration UI
 config:
 
 http:
   # Secrets are defined in the file secrets.yaml
-  api_password: !secret http_password
+  #api_password: !secret http_password
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
   cors_allowed_origins: "*"
+  ssl_certificate: /home/pi/dehydrated/certs/ahdintie.duckdns.org/fullchain.pem
+  ssl_key: /home/pi/dehydrated/certs/ahdintie.duckdns.org/privkey.pem
+  base_url: ahdintie.duckdns.org:8123
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -67,21 +72,13 @@ shell_command:
   tv_irsend: 'irsend SEND_ONCE PhilipsPFT {{ key }}'
   shutdown_pc: 'curl http://192.168.100.2:5001/shutdown'
   wol_pc: !secret WOL_SCRIPT
-
+  magic_card: '/home/pi/magic-cards/.virtualenv/bin/python /home/pi/magic-cards/scanner/scanner.py --code {{ code }}'
 
 switch:
-- platform: broadlink
-  host: 192.168.100.11
-  mac: !secret NEO_MAC
-  type: sp2
-- platform: command_line
-  switches:
-    tv_volume:
-      command_on: irsend SEND_ONCE PhilipsPFT KEY_VOLUMEUP
-      command_off: irsend SEND_ONCE PhilipsPFT KEY_VOLUMEDOWN
-#    tv_power:
-#      command_on: irsend SEND_ONCE PhilipsPFT KEY_POWER
-#      command_off: irsend SEND_ONCE PhilipsPFT KEY_POWER
+#- platform: broadlink
+#  host: 192.168.100.11
+#  mac: !secret NEO_MAC
+#  type: sp2
 - platform: rpi_rf
   gpio: 24
   switches:
@@ -145,8 +142,8 @@ sensor:
       temperature_c:
         unit_of_measurement: "°C"
         value_template: "{{states('sensor.temperature')}}"
-  - platform: openhardwaremonitor
-    host: 192.168.100.35
+#  - platform: openhardwaremonitor
+#    host: 192.168.100.35
 
 
 sensor 2:
@@ -198,4 +195,17 @@ sensor 3:
 
 logger:
   default: warning
+
+google_assistant:
+  project_id: homeassistant-14208
+  service_account: !include SERVICE_ACCOUNT.json
+  report_state: true
+  #expose_by_default: false
+  exposed_domains:
+    - switch
+    - script
+
+cast_extensions:
+  adb_connect: 192.168.100.13
+  areena_key: !secret AREENA_KEY
 
